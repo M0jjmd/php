@@ -1,30 +1,36 @@
 <?php
-$data = file_get_contents("ApiData.json");
-$json = json_decode($data, true);
+require_once('./Room.php');
+$rooms = Room::getJsonData();
 
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 if ($id === null) {
     echo "Put an ID.";
     exit;
 }
-$rooms = $json['rooms'];
-if (isset($rooms) && is_array($rooms)) {
-    foreach ($rooms as $room) {
-        if ($room['RoomID'] == $id) {
-            $foundRoom = $room;
-            break;
-        }
+
+$findRoom = null;
+
+foreach ($rooms as $room) {
+    if ($room["id"] == $id) {
+        $findRoom = $room;
+        echo ($room);
     }
+}
+
+if ($findRoom == null) {
+    echo "No Room.";
 }
 ?>
 
 <ol>
     <?php
-    echo "<li>";
-    echo "Type: " . htmlspecialchars($foundRoom['BedType']) . "<br>";
-    echo "Number: " . htmlspecialchars($foundRoom['RoomNumber']) . "<br>";
-    echo "price: " . htmlspecialchars($foundRoom['Rate']) . "<br>";
-    echo "Discount: " . htmlspecialchars($foundRoom['OfferPrice']) . "<br>";
-    echo "</li>";
+    if ($findRoom != null) {
+        echo "<li>";
+        echo "Type: " . htmlspecialchars($findRoom['BedType']) . "<br>";
+        echo "Number: " . htmlspecialchars($findRoom['RoomNumber']) . "<br>";
+        echo "price: " . htmlspecialchars($findRoom['Rate']) . "<br>";
+        echo "Discount: " . htmlspecialchars($findRoom['OfferPrice']) . "<br>";
+        echo "</li>";
+    }
     ?>
 </ol>

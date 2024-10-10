@@ -1,11 +1,10 @@
 <?php
-$data = file_get_contents("ApiData.json");
-$json = json_decode($data, true);
+require_once('./Room.php');
+$rooms = Room::getJsonData();
 ?>
 
 <ol>
     <?php
-    $rooms = $json['rooms'];
     foreach ($rooms as $room) {
         echo "<li>";
         echo "Type: " . htmlspecialchars($room['BedType']) . "<br>";

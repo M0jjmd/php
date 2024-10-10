@@ -1,5 +1,8 @@
 <?php
 require_once('./db.php');
+require_once('./Room.php');
+
+Room::setConnection($conn);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $photo = $_POST['photo'];
@@ -9,32 +12,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $offer_price = $_POST['offer_price'];
     $status = $_POST['status'];
 
-    $photo = htmlspecialchars($photo);
-    $room_number = htmlspecialchars($room_number);
-    $bed_type = htmlspecialchars($bed_type);
-    $rate = intval($rate);
-    $offer_price = intval($offer_price);
-    $status = htmlspecialchars($status);
+    $roomData = [
+        "photo" => htmlspecialchars($photo),
+        "room_number" => htmlspecialchars($room_number),
+        "bed_type" => htmlspecialchars($bed_type),
+        "rate" => intval($rate),
+        "offer_price" => intval($offer_price),
+        "status" => htmlspecialchars($status),
+    ];
 
-    $query = "INSERT INTO rooms (photo, room_number, bed_type, rate, offer_price, status) VALUES (?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-
-    if ($stmt) {
-        $stmt->bind_param("sisiis", $photo, $room_number, $bed_type, $rate, $offer_price, $status);
-        if ($stmt->execute()) {
-            echo "Nueva habitación creada con éxito.";
-
-            $new_room_id = $stmt->insert_id;
-
-            header("Location: index6.php?id=$new_room_id");
-        } else {
-            echo "Error al crear la habitación: " . $conn->error;
-        }
-    } else {
-        echo "Error al preparar la consulta.";
-    }
-
-    $stmt->close();
+    $new_room_id = Room::insertRoom($roomData);
+    header("Location: index6.php?id=$new_room_id");
+    exit;
 }
 
 $conn->close();

@@ -1,29 +1,22 @@
 <?php
 require_once('./db.php');
+require_once('./Room.php');
 
-$query = "SELECT bed_type, room_number, rate, offer_price FROM rooms";
+Room::setConnection($conn);
+
 $result = [];
 
 if (isset($_POST['reset'])) {
-    $result = $conn->query($query);
+    $result = Room::getAllRooms();
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target_id = $_POST['room_id'];
     if (is_numeric($target_id)) {
-        $queryID = "SELECT id, bed_type, room_number, rate, offer_price FROM rooms where id = ?";
-        $stmt = $conn->prepare($queryID);
-
-        if ($stmt) {
-            $stmt->bind_param("i", $target_id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-        } else {
-            echo "Error al preparar la consulta.";
-        }
+        $result = Room::getSingleRoom($target_id);
     } else {
         echo "Por favor, ingrese un ID válido.";
     }
 } else {
-    $result = $conn->query($query);
+    $result = Room::getAllRooms();
 }
 ?>
 
@@ -36,8 +29,8 @@ if (isset($_POST['reset'])) {
 
 <ol>
     <?php
-    if ($result->num_rows > 0) {
-        while ($room = $result->fetch_assoc()) {
+    if (count($result) > 0) {
+        foreach ($result as $room) {
             echo "<li>";
             echo "Type: " . htmlspecialchars($room['bed_type']) . "<br>";
             echo "Number: " . htmlspecialchars($room['room_number']) . "<br>";
@@ -47,10 +40,6 @@ if (isset($_POST['reset'])) {
         }
     } else {
         echo "No available rooms";
-    }
-
-    if (isset($stmt)) {
-        $stmt->close();
     }
 
     $conn->close();

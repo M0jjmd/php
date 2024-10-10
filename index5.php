@@ -1,7 +1,10 @@
 <?php
 require_once('./db.php');
-$query = "SELECT * FROM rooms";
-$result = $conn->query($query);
+require_once('./Room.php');
+
+Room::setConnection($conn);
+
+$result = Room::getAllRooms();
 ?>
 
 <ol>
