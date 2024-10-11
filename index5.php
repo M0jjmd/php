@@ -8,16 +8,12 @@ $result = Room::getAllRooms();
 ?>
 
 <ol>
-    <?php
-    foreach ($result as $room) {
-        echo "<li>";
-        echo "Type: " . htmlspecialchars($room['bed_type']) . "<br>";
-        echo "Number: " . htmlspecialchars($room['room_number']) . "<br>";
-        echo "price: " . htmlspecialchars($room['rate']) . "<br>";
-        echo "Discount: " . htmlspecialchars($room['offer_price']) . "<br>";
-        echo "</li>";
-    }
-
-    $conn->close();
-    ?>
+    <?php foreach ($result as $room): ?>
+        <li>Type: <?= $room['bed_type']; ?> </li>
+        <li>Number: <?= $room['room_number']; ?> </li>
+        <li>price: <?= $room['rate']; ?> </li>
+        <li>Discount: <?= $room['offer_price']; ?> </li>
+    <?php endforeach; ?>
 </ol>
+
+<?php $conn->close(); ?>

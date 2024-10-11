@@ -28,20 +28,16 @@ if (isset($_POST['reset'])) {
 </form>
 
 <ol>
-    <?php
-    if (count($result) > 0) {
-        foreach ($result as $room) {
-            echo "<li>";
-            echo "Type: " . htmlspecialchars($room['bed_type']) . "<br>";
-            echo "Number: " . htmlspecialchars($room['room_number']) . "<br>";
-            echo "price: " . htmlspecialchars($room['rate']) . "<br>";
-            echo "Discount: " . htmlspecialchars($room['offer_price']) . "<br>";
-            echo "</li>";
-        }
-    } else {
-        echo "No available rooms";
-    }
-
-    $conn->close();
-    ?>
+    <?php if (count($result) > 0): ?>
+        <?php foreach ($result as $room): ?>
+            <li>Type: <?= $room['bed_type'] ?></li>
+            <li>Number: <?= $room['room_number'] ?></li>
+            <li>Price: <?= $room['rate'] ?></li>
+            <li>Discount: <?= $room['offer_price'] ?></li>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>No available rooms</p>
+    <?php endif; ?>
 </ol>
+
+<?php $conn->close(); ?>

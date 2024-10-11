@@ -23,14 +23,10 @@ if ($findRoom == null) {
 ?>
 
 <ol>
-    <?php
-    if ($findRoom != null) {
-        echo "<li>";
-        echo "Type: " . htmlspecialchars($findRoom['BedType']) . "<br>";
-        echo "Number: " . htmlspecialchars($findRoom['RoomNumber']) . "<br>";
-        echo "price: " . htmlspecialchars($findRoom['Rate']) . "<br>";
-        echo "Discount: " . htmlspecialchars($findRoom['OfferPrice']) . "<br>";
-        echo "</li>";
-    }
-    ?>
+    <?php if ($findRoom != null): ?>
+        <li>Type: <?= $room['BedType']; ?> </li>
+        <li>Number: <?= $room['RoomNumber']; ?> </li>
+        <li>price: <?= $room['Rate']; ?> </li>
+        <li>Discount: <?= $room['OfferPrice']; ?> </li>
+    <?php endif; ?>
 </ol>

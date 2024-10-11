@@ -60,16 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <h2>Lista de Habitaciones</h2>
 <ol>
-    <?php
-    foreach ($rooms as $room) {
-        echo "<li>";
-        echo "Foto: " . htmlspecialchars($room['photo']) . "<br>";
-        echo "Número de habitación: " . htmlspecialchars($room['room_number']) . "<br>";
-        echo "Tipo de cama: " . htmlspecialchars($room['bed_type']) . "<br>";
-        echo "Precio normal: $" . number_format($room['rate'], 2) . "<br>";
-        echo "Precio de oferta: $" . number_format($room['offer_price'], 2) . "<br>";
-        echo "Estado: " . htmlspecialchars($room['status']) . "<br>";
-        echo "</li>";
-    }
-    ?>
+    <?php foreach ($rooms as $room): ?>
+        <li>Foto: <?= $room['photo']; ?> </li>
+        <li>Número de habitación: <?= $room['room_number']; ?> </li>
+        <li>Tipo de cama: <?= $room['bed_type']; ?> </li>
+        <li>Precio normal: <?= $room['rate']; ?> </li>
+        <li>Precio de oferta: <?= $room['offer_price']; ?> </li>
+        <li>Estado: <?= $room['status']; ?> </li>
+    <?php endforeach; ?>
 </ol>

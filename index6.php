@@ -19,18 +19,14 @@ if (empty($result)) {
 ?>
 
 <ol>
-    <?php
-    if (count($result) > 0) {
-        foreach ($result as $room) {
-            echo "<li>";
-            echo "Type: " . htmlspecialchars($room['bed_type']) . "<br>";
-            echo "Number: " . htmlspecialchars($room['room_number']) . "<br>";
-            echo "price: " . htmlspecialchars($room['rate']) . "<br>";
-            echo "Discount: " . htmlspecialchars($room['offer_price']) . "<br>";
-            echo "</li>";
-        }
-    }
-    ?>
+    <?php if (count($result) > 0): ?>
+        <?php foreach ($result as $room): ?>
+            <li>Type: <?= $room['bed_type']; ?> </li>
+            <li>Number: <?= $room['room_number']; ?> </li>
+            <li>price: <?= $room['rate']; ?> </li>
+            <li>Discount: <?= $room['offer_price']; ?> </li>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </ol>
 
 <?php
